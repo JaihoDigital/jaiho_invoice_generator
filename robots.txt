@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Disallow empty or non-essential paths
+Disallow: /assets/
+Disallow: *.js$
+Disallow: *.css$
+
+# Sitemap location
+Sitemap: https://jaiho-invoicegen.vercel.app/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
