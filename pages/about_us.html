@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Jaiho Invoice</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                <span class="text-indigo-600">Jaiho </span>InvoiceGen
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Home</a>
+                <a href="more_products.html" class="text-gray-600 hover:text-indigo-600 transition-colors">More Products</a>
+                <a href="contact_us.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Contact</a>
+                <a href="about_us.html" class="text-indigo-600 font-semibold">About Us</a>
+                <a href="faq.html" class="text-gray-600 hover:text-indigo-600 transition-colors">FAQ</a>
+                <a href="donate.html" class="block py-2 px-4 text-sm text-indigo-600 bg-indigo-50 font-semibold">Donate</a>
+                
+            </div>
+             <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-indigo-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="../index.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">Home</a>
+            <a href="more_products.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">More Products</a>
+            <a href="contact_us.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">Contact</a>
+            <a href="about_us.html" class="block py-2 px-4 text-sm text-indigo-600 bg-indigo-50 font-semibold">About Us</a>
+            <a href="faq.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">FAQ</a>
+            <a href="donate.html" class="block py-2 px-4 text-sm text-indigo-600 bg-indigo-50 font-semibold">Donate</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 fade-in">About Jaiho Labs</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto fade-in" style="animation-delay: 0.1s;">
+                We are a passionate team of developers and designers creating innovative solutions to simplify business processes and enhance productivity.
+            </p>
+        </div>
+
+        <!-- Mission Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            <div class="fade-in" style="animation-delay: 0.2s;">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Mission</h2>
+                <p class="text-gray-600 text-lg leading-relaxed mb-4">
+                    At Jaiho Labs, we believe in the power of technology to transform how businesses operate. Our mission is to create user-friendly, efficient, and reliable tools that help entrepreneurs, small businesses, and enterprises streamline their operations.
+                </p>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    We focus on building solutions that are not just functional, but also intuitive and accessible to users of all technical backgrounds.
+                </p>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow-lg fade-in" style="animation-delay: 0.3s;">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">What We Do</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center space-x-3">
+                        <div class="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Web Application Development</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <div class="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Business Process Automation</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <div class="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">AI & Machine Learning Solutions</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <div class="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Mobile App Development</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Values Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-16 fade-in" style="animation-delay: 0.4s;">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">Our Core Values</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Quality</h3>
+                    <p class="text-gray-600">We deliver high-quality solutions that exceed expectations and stand the test of time.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Innovation</h3>
+                    <p class="text-gray-600">We embrace cutting-edge technologies and creative approaches to solve complex problems.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Collaboration</h3>
+                    <p class="text-gray-600">We work closely with our clients to understand their needs and build lasting partnerships.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="mb-16 fade-in" style="animation-delay: 0.5s;">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">Meet Our Team</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-lg text-center">
+                    <div class="w-24 h-24 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">JK</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-1">Jai Kumar</h3>
+                    <p class="text-indigo-600 font-medium mb-3">Founder & CEO</p>
+                    <p class="text-gray-600 text-sm">Full-stack developer with 8+ years of experience in building scalable web applications.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg text-center">
+                    <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-teal-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">AS</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-1">Anita Sharma</h3>
+                    <p class="text-indigo-600 font-medium mb-3">Lead Designer</p>
+                    <p class="text-gray-600 text-sm">UI/UX designer passionate about creating intuitive and beautiful user experiences.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg text-center">
+                    <div class="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">RG</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-1">Rahul Gupta</h3>
+                    <p class="text-indigo-600 font-medium mb-3">Technical Lead</p>
+                    <p class="text-gray-600 text-sm">Expert in AI/ML technologies and cloud infrastructure with a focus on innovation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white fade-in" style="animation-delay: 0.6s;">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-3xl font-bold mb-2">50+</div>
+                    <div class="text-indigo-100">Projects Completed</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold mb-2">25+</div>
+                    <div class="text-indigo-100">Happy Clients</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold mb-2">3+</div>
+                    <div class="text-indigo-100">Years Experience</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold mb-2">24/7</div>
+                    <div class="text-indigo-100">Support</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 mt-12 border-t bg-white">
+        <p class="text-gray-500 text-sm">&copy; <span id="footer-year"></span> All rights reserved.</p>
+        <p class="text-gray-500 text-sm mt-1">Developed by <a href="https://jaiho-labs.onrender.com" target="_blank" class="text-indigo-600 font-semibold">Jaiho Labs</a> and <a href="https://jaihotechserve.onrender.com" target="_blank" class="text-indigo-600 font-semibold">Jaiho TechServe</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            document.getElementById('footer-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator - Jaiho Invoice</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        /* Custom Styles for a polished look */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Animation for elements fading in */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Print-specific styles */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+            #invoice-preview {
+                width: 100% !important;
+                max-width: 100% !important;
+                border: none !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                transform: scale(1) !important;
+                transform-origin: top left !important;
+                page-break-inside: avoid;
+            }
+            .print-invoice-container {
+                display: block !important;
+                padding: 0;
+                margin: 0;
+            }
+            .item-row {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Styling for the signature canvas */
+        #signature-canvas {
+            border: 1px dashed #ccc;
+            border-radius: 0.5rem;
+            cursor: crosshair;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40 no-print">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                <span class="text-indigo-600">Jaiho </span>InvoiceGen
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-indigo-600 font-semibold">Home</a>
+                <a href="pages/more_products.html" class="text-gray-600 hover:text-indigo-600 transition-colors">More Products</a>
+                <a href="pages/contact_us.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Contact</a>
+                <a href="pages/about_us.html" class="text-gray-600 hover:text-indigo-600 transition-colors">About Us</a>
+                <a href="pages/faq.html" class="text-gray-600 hover:text-indigo-600 transition-colors">FAQ</a>
+                <a href="donate.html" class="block py-2 px-4 text-sm text-indigo-600 bg-indigo-50 font-semibold">Donate</a>
+            </div>
+             <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-indigo-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">Home</a>
+            <a href="pages/more_products.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">More Products</a>
+            <a href="pages/contact_us.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">Contact</a>
+            <a href="pages/about_us.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">About Us</a>
+            <a href="pages/faq.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">FAQ</a>
+            <a href="donate.html" class="block py-2 px-4 text-sm text-indigo-600 bg-indigo-50 font-semibold">Donate</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Side: Controls -->
+            <div class="lg:col-span-1 space-y-6 no-print">
+                <div class="bg-white p-6 rounded-xl shadow-md fade-in">
+                    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Invoice Options</h2>
+                    <div class="space-y-4">
+                        <!-- Currency Selector -->
+                        <div>
+                            <label for="currency" class="block text-sm font-medium text-gray-700">Currency</label>
+                            <select id="currency" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="$">USD ($)</option>
+                                <option value="€">EUR (€)</option>
+                                <option value="£">GBP (£)</option>
+                                <option value="¥">JPY (¥)</option>
+                                <option value="₹" selected>INR (₹)</option>
+                            </select>
+                        </div>
+                        <!-- Discount -->
+                        <div>
+                            <label for="discount" class="block text-sm font-medium text-gray-700">Discount</label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+                                <span id="discount-currency-symbol" class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">₹</span>
+                                <input type="number" id="discount" value="0" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300" placeholder="0.00">
+                            </div>
+                        </div>
+                        <!-- Tax Type Selector -->
+                        <div class="pt-2">
+                             <label class="block text-sm font-medium text-gray-700">Tax Type</label>
+                            <div class="flex items-center space-x-4 mt-2">
+                                <div class="flex items-center">
+                                    <input type="radio" id="tax-type-global" name="tax-type" value="global" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" checked>
+                                    <label for="tax-type-global" class="ml-2 block text-sm text-gray-900">Global</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" id="tax-type-item" name="tax-type" value="item" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                                    <label for="tax-type-item" class="ml-2 block text-sm text-gray-900">Per-Item</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" id="tax-type-common" name="tax-type" value="common" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                                    <label for="tax-type-common" class="ml-2 block text-sm text-gray-900">Common</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Global Tax Rate -->
+                        <div id="global-tax-container">
+                            <label for="tax-rate" class="block text-sm font-medium text-gray-700">Global Tax Rate (%)</label>
+                            <input type="number" id="tax-rate" value="18" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 18">
+                        </div>
+                        <!-- Common Tax Container -->
+                        <div id="common-tax-container" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700">Common Taxes</label>
+                            <div id="common-taxes-list" class="space-y-2 mt-1">
+                                <!-- Common tax inputs will be added here -->
+                            </div>
+                            <button id="add-common-tax" class="mt-2 text-sm text-indigo-600 hover:text-indigo-800 font-semibold">+ Add Tax Component</button>
+                        </div>
+                         <!-- Logo Toggle -->
+                        <div class="pt-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="show-logo" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" checked>
+                                <label for="show-logo" class="ml-2 block text-sm text-gray-900">Show logo placeholder</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="bg-white p-6 rounded-xl shadow-md fade-in" style="animation-delay: 0.1s;">
+                    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Actions</h2>
+                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button id="download-pdf" class="w-full flex items-center justify-center bg-indigo-600 text-white py-2.5 px-4 rounded-lg font-semibold hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-indigo-500/30">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Download PDF
+                        </button>
+                        <button id="print-invoice" class="w-full flex items-center justify-center bg-gray-700 text-white py-2.5 px-4 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-gray-500/30">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            Print
+                        </button>
+                    </div>
+                </div>
+
+                 <!-- Signature Pad -->
+                <div class="bg-white p-6 rounded-xl shadow-md fade-in" style="animation-delay: 0.2s;">
+                    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Authorized Signature</h2>
+                    <div class="space-y-3">
+                         <div class="flex items-center space-x-2">
+                             <input type="radio" id="sign-text" name="signature-type" value="text" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" checked>
+                             <label for="sign-text">Type</label>
+                             <input type="radio" id="sign-canvas" name="signature-type" value="canvas" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                             <label for="sign-canvas">Draw</label>
+                              <input type="radio" id="sign-upload" name="signature-type" value="upload" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                             <label for="sign-upload">Upload</label>
+                        </div>
+                        
+                        <div id="signature-text-input-container">
+                             <input type="text" id="signature-text-input" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter Your Name">
+                        </div>
+
+                        <div id="signature-canvas-container" class="hidden">
+                             <canvas id="signature-canvas" width="300" height="150"></canvas>
+                             <button id="clear-canvas" class="mt-2 text-sm text-indigo-600 hover:text-indigo-800">Clear</button>
+                        </div>
+                        
+                         <div id="signature-upload-container" class="hidden">
+                            <input type="file" id="signature-upload-input" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Invoice Preview -->
+            <div class="lg:col-span-2 print-invoice-container">
+                <div id="invoice-preview" class="bg-white p-8 sm:p-12 rounded-2xl shadow-2xl w-full max-w-4xl mx-auto transition-transform duration-500 ease-in-out">
+                    <!-- Invoice Header -->
+                    <div class="flex justify-between items-start pb-8 border-b-2 border-gray-100">
+                        <!-- Logo and Company Name -->
+                        <div class="flex items-center space-x-4 flex-1">
+                             <div id="logo-container" class="w-24 h-24 border-2 border-dashed rounded-lg flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-50 flex-shrink-0">
+                                <span id="logo-placeholder">Click to upload logo</span>
+                                <img id="logo-image" src="" alt="Company Logo" class="hidden max-w-full max-h-full object-contain"/>
+                                <input type="file" id="logo-upload" class="hidden" accept="image/*">
+                            </div>
+                            <input type="text" id="company-name" value="Your Company" class="text-3xl font-bold border-none focus:ring-0 p-0 m-0 w-full" placeholder="Your Company">
+                        </div>
+                        <div class="text-right">
+                            <h1 class="text-4xl font-bold text-gray-800">INVOICE</h1>
+                            <div class="flex items-center justify-end mt-2">
+                                <span class="text-gray-500 mr-2">#</span>
+                                <input type="text" value="INV-001" class="text-gray-500 font-medium w-24 text-right border-none focus:ring-0 p-0 m-0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Company & Client Details -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8">
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">From</h3>
+                            <textarea id="company-details" class="w-full h-24 text-gray-600 p-0 border-none focus:ring-0 resize-none" placeholder="Your Company Address&#10;City, State, ZIP&#10;Email & Phone">Your Company Address
+City, State, ZIP
+your.email@company.com
+(123) 456-7890</textarea>
+                        </div>
+                        <div class="sm:text-right">
+                            <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Bill To</h3>
+                             <textarea id="client-details" class="w-full h-24 text-gray-600 p-0 border-none focus:ring-0 resize-none sm:text-right" placeholder="Client Name&#10;Client Address&#10;City, State, ZIP&#10;client.email@example.com">Client Name
+Client Address
+City, State, ZIP
+client.email@example.com</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Dates -->
+                    <div class="grid grid-cols-2 gap-8 mt-8">
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-500 uppercase mb-1">Date of Issue</h3>
+                             <input type="date" id="issue-date" class="text-gray-600 border-none p-0 focus:ring-0">
+                        </div>
+                        <div class="text-right">
+                            <h3 class="text-sm font-semibold text-gray-500 uppercase mb-1">Due Date</h3>
+                            <input type="date" id="due-date" class="text-gray-600 border-none p-0 focus:ring-0 text-right">
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <div class="mt-10">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-gray-100 text-sm font-semibold text-gray-600">
+                                    <th class="p-3 rounded-l-lg">Item Description</th>
+                                    <th class="p-3 w-20 text-center">Qty</th>
+                                    <th class="p-3 w-28 text-right">Rate</th>
+                                    <th class="p-3 w-24 text-center item-tax-header hidden">Tax (%)</th>
+                                    <th class="p-3 w-32 text-right rounded-r-lg">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoice-items">
+                                <!-- Item rows will be injected here by JS -->
+                            </tbody>
+                        </table>
+                        <button id="add-item" class="mt-4 flex items-center text-indigo-600 font-semibold hover:text-indigo-800 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                            Add Item
+                        </button>
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="flex justify-end mt-8">
+                        <div class="w-full max-w-xs space-y-3">
+                            <div class="flex justify-between font-medium">
+                                <span>Subtotal</span>
+                                <span id="subtotal">₹0.00</span>
+                            </div>
+                            <div id="discount-line" class="flex justify-between font-medium text-red-600 hidden">
+                                <span>Discount</span>
+                                <span id="discount-amount">₹0.00</span>
+                            </div>
+                            <div id="tax-breakdown" class="space-y-1">
+                                <!-- Tax lines will be generated here by JS -->
+                            </div>
+                            <div class="flex justify-between font-bold text-xl text-gray-800 pt-2 border-t-2 border-gray-200">
+                                <span>Total</span>
+                                <span id="total-amount">₹0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 border-t-2 border-gray-100 pt-8">
+                        <!-- Notes -->
+                        <div>
+                             <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Notes</h3>
+                             <textarea class="w-full text-gray-600 p-0 border-none focus:ring-0 resize-none" rows="2" placeholder="Thank you for your business.">Thank you for your business.</textarea>
+                        </div>
+                         <!-- Signature Display -->
+                        <div class="mt-8">
+                             <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Authorized Signature</h3>
+                             <div id="signature-display" class="w-48 h-24 border-b-2 border-gray-400">
+                                <img id="signature-image-display" src="" class="hidden h-full object-contain">
+                                <span id="signature-text-display" class="h-full w-full flex items-end justify-start font-serif italic text-xl"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 mt-12 border-t bg-white no-print">
+        <p class="text-gray-500 text-sm">&copy; <span id="footer-year"></span> All rights reserved.</p>
+        <p class="text-gray-500 text-sm mt-1">Developed by <a href="https://jaiho-labs.onrender.com" target="_blank" class="text-indigo-600 font-semibold">Jaiho Labs</a> and <a href="https://jaihotechserve.onrender.com" target="_blank" class="text-indigo-600 font-semibold">Jaiho TechServe</a></p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Element Selectors ---
+        const currencySelect = document.getElementById('currency');
+        const discountInput = document.getElementById('discount');
+        const discountCurrencySymbol = document.getElementById('discount-currency-symbol');
+        const taxRateInput = document.getElementById('tax-rate');
+        const taxTypeRadios = document.querySelectorAll('input[name="tax-type"]');
+        const globalTaxContainer = document.getElementById('global-tax-container');
+        const commonTaxContainer = document.getElementById('common-tax-container');
+        const addCommonTaxBtn = document.getElementById('add-common-tax');
+        const commonTaxesList = document.getElementById('common-taxes-list');
+        const showLogoCheckbox = document.getElementById('show-logo');
+        const itemTaxHeaders = document.querySelectorAll('.item-tax-header');
+        const addItemBtn = document.getElementById('add-item');
+        const itemsContainer = document.getElementById('invoice-items');
+        const subtotalEl = document.getElementById('subtotal');
+        const discountLine = document.getElementById('discount-line');
+        const discountAmountEl = document.getElementById('discount-amount');
+        const taxBreakdownContainer = document.getElementById('tax-breakdown');
+        const totalAmountEl = document.getElementById('total-amount');
+        const downloadPdfBtn = document.getElementById('download-pdf');
+        const printInvoiceBtn = document.getElementById('print-invoice');
+        const logoUploadInput = document.getElementById('logo-upload');
+        const logoContainer = document.getElementById('logo-container');
+        const logoImage = document.getElementById('logo-image');
+        const logoPlaceholder = document.getElementById('logo-placeholder');
+        
+        // Dates
+        const issueDateInput = document.getElementById('issue-date');
+        const dueDateInput = document.getElementById('due-date');
+
+        // Signature
+        const signatureTypeRadios = document.querySelectorAll('input[name="signature-type"]');
+        const signatureTextInputContainer = document.getElementById('signature-text-input-container');
+        const signatureCanvasContainer = document.getElementById('signature-canvas-container');
+        const signatureUploadContainer = document.getElementById('signature-upload-container');
+        const signatureTextInput = document.getElementById('signature-text-input');
+        const signatureCanvas = document.getElementById('signature-canvas');
+        const clearCanvasBtn = document.getElementById('clear-canvas');
+        const signatureUploadInput = document.getElementById('signature-upload-input');
+        const signatureImageDisplay = document.getElementById('signature-image-display');
+        const signatureTextDisplay = document.getElementById('signature-text-display');
+
+        // Mobile Menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // --- State ---
+        let currencySymbol = '₹';
+
+        // --- Signature Pad Logic ---
+        const ctx = signatureCanvas.getContext('2d');
+        let drawing = false;
+        
+        const clearSignatureCanvas = () => {
+            ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+            signatureImageDisplay.src = '';
+            signatureImageDisplay.classList.add('hidden');
+        };
+        
+        const getMousePos = (canvas, evt) => {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        };
+        
+        const startDrawing = (e) => {
+            drawing = true;
+            draw(e);
+        };
+        const endDrawing = () => {
+            drawing = false;
+            ctx.beginPath();
+            updateSignatureDisplay();
+        };
+        const draw = (e) => {
+            if (!drawing) return;
+            e.preventDefault(); 
+            const pos = getMousePos(signatureCanvas, e.touches ? e.touches[0] : e);
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        };
+
+        // --- Functions ---
+        const updateTotals = () => {
+            const items = document.querySelectorAll('.item-row');
+            let subtotal = 0;
+            const discountValue = parseFloat(discountInput.value) || 0;
+            const taxType = document.querySelector('input[name="tax-type"]:checked').value;
+
+            // Calculate subtotal from all items
+            items.forEach(item => {
+                const qty = parseFloat(item.querySelector('.item-qty').value) || 0;
+                const rate = parseFloat(item.querySelector('.item-rate').value) || 0;
+                subtotal += qty * rate;
+            });
+
+            // Calculate taxable amount (subtotal - discount)
+            const taxableAmount = subtotal - discountValue;
+            
+            // Clear previous tax breakdown
+            taxBreakdownContainer.innerHTML = '';
+
+            let totalTax = 0;
+            
+            // Handle different tax types
+            if (taxType === 'global') {
+                const taxRate = parseFloat(taxRateInput.value) || 0;
+                totalTax = (taxableAmount * taxRate) / 100;
+                if (totalTax > 0) {
+                    taxBreakdownContainer.innerHTML = `
+                        <div class="flex justify-between font-medium text-gray-600">
+                            <span>Tax (${taxRate}%)</span>
+                            <span>${currencySymbol}${totalTax.toFixed(2)}</span>
+                        </div>`;
+                }
+            } else if (taxType === 'item') {
+                // Per-item tax calculation (before discount)
+                items.forEach(item => {
+                    const qty = parseFloat(item.querySelector('.item-qty').value) || 0;
+                    const rate = parseFloat(item.querySelector('.item-rate').value) || 0;
+                    const itemTaxRate = parseFloat(item.querySelector('.item-tax').value) || 0;
+                    totalTax += ((qty * rate) * itemTaxRate) / 100;
+                });
+                if (totalTax > 0) {
+                     taxBreakdownContainer.innerHTML = `
+                        <div class="flex justify-between font-medium text-gray-600">
+                            <span>Total Tax</span>
+                            <span>${currencySymbol}${totalTax.toFixed(2)}</span>
+                        </div>`;
+                }
+            } else if (taxType === 'common') {
+                // Common tax calculated at end on taxable amount (subtotal - discount)
+                const commonTaxInputs = commonTaxesList.querySelectorAll('.common-tax-item');
+                commonTaxInputs.forEach(taxInput => {
+                    const name = taxInput.querySelector('.common-tax-name').value || 'Tax';
+                    const rate = parseFloat(taxInput.querySelector('.common-tax-rate').value) || 0;
+                    const taxValue = (taxableAmount * rate) / 100;
+                    totalTax += taxValue;
+
+                    if (taxValue > 0) {
+                        const taxLine = document.createElement('div');
+                        taxLine.className = 'flex justify-between font-medium text-gray-600';
+                        taxLine.innerHTML = `
+                            <span>${name} (${rate}%)</span>
+                            <span>${currencySymbol}${taxValue.toFixed(2)}</span>`;
+                        taxBreakdownContainer.appendChild(taxLine);
+                    }
+                });
+            }
+
+            // Calculate final total
+            const totalAmount = taxType === 'item' ? subtotal + totalTax - discountValue : taxableAmount + totalTax;
+            
+            // Update display
+            subtotalEl.textContent = `${currencySymbol}${subtotal.toFixed(2)}`;
+
+            // Handle discount display
+            if (discountValue > 0) {
+                discountLine.classList.remove('hidden');
+                discountAmountEl.textContent = `-${currencySymbol}${discountValue.toFixed(2)}`;
+            } else {
+                discountLine.classList.add('hidden');
+            }
+
+            totalAmountEl.textContent = `${currencySymbol}${totalAmount.toFixed(2)}`;
+        };
+        
+        const createItemRow = () => {
+            const row = document.createElement('tr');
+            row.className = 'item-row border-b border-gray-100 group';
+            row.innerHTML = `
+                <td class="p-3">
+                    <input type="text" class="w-full p-0 border-none focus:ring-0" placeholder="Item Name & Description">
+                </td>
+                <td class="p-3">
+                    <input type="number" class="item-qty w-full p-0 border-none focus:ring-0 text-center" value="1" min="0">
+                </td>
+                <td class="p-3 text-right">
+                    <span class="currency-symbol">${currencySymbol}</span>
+                    <input type="number" class="item-rate w-full p-0 border-none focus:ring-0 text-right" value="0.00" step="0.01" min="0">
+                </td>
+                <td class="p-3 item-tax-cell hidden">
+                    <input type="number" class="item-tax w-full p-0 border-none focus:ring-0 text-center" value="0" min="0">
+                </td>
+                <td class="p-3 text-right font-medium">
+                    <div class="flex items-center justify-end">
+                        <span class="currency-symbol">${currencySymbol}</span>
+                        <span class="item-amount">0.00</span>
+                        <button class="remove-item text-red-500 hover:text-red-700 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">&times;</button>
+                    </div>
+                </td>
+            `;
+            
+            if (document.getElementById('tax-type-item').checked) {
+                row.querySelector('.item-tax-cell').classList.remove('hidden');
+            }
+            return row;
+        };
+        
+        const updateItemAmount = (row) => {
+            const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+            const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+            const amount = qty * rate;
+            row.querySelector('.item-amount').textContent = amount.toFixed(2);
+            updateTotals();
+        };
+
+        const addCommonTax = (name = '', rate = '') => {
+            const newTaxEl = document.createElement('div');
+            newTaxEl.className = 'common-tax-item flex items-center space-x-2';
+            newTaxEl.innerHTML = `
+                <input type="text" class="common-tax-name w-1/2 shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Tax Name" value="${name}">
+                <input type="number" class="common-tax-rate w-1/3 shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="%" value="${rate}" min="0" step="0.01">
+                <button class="remove-common-tax text-red-500 hover:text-red-700 font-bold text-lg">&times;</button>
+            `;
+            commonTaxesList.appendChild(newTaxEl);
+        };
+        
+        const handleSignatureTypeChange = () => {
+            const selectedType = document.querySelector('input[name="signature-type"]:checked').value;
+            signatureTextInputContainer.classList.toggle('hidden', selectedType !== 'text');
+            signatureCanvasContainer.classList.toggle('hidden', selectedType !== 'canvas');
+            signatureUploadContainer.classList.toggle('hidden', selectedType !== 'upload');
+            updateSignatureDisplay();
+        };
+
+        const updateSignatureDisplay = () => {
+            const selectedType = document.querySelector('input[name="signature-type"]:checked').value;
+            signatureImageDisplay.classList.add('hidden');
+            signatureTextDisplay.classList.add('hidden');
+            
+            if (selectedType === 'text') {
+                signatureTextDisplay.textContent = signatureTextInput.value;
+                signatureTextDisplay.classList.remove('hidden');
+            } else if (selectedType === 'canvas') {
+                const dataUrl = signatureCanvas.toDataURL();
+                if (dataUrl !== 'data:,') {
+                    signatureImageDisplay.src = dataUrl;
+                    signatureImageDisplay.classList.remove('hidden');
+                }
+            } else if (selectedType === 'upload' && signatureUploadInput.files[0]) {
+                 const reader = new FileReader();
+                 reader.onload = (e) => {
+                    signatureImageDisplay.src = e.target.result;
+                    signatureImageDisplay.classList.remove('hidden');
+                 };
+                 reader.readAsDataURL(signatureUploadInput.files[0]);
+            }
+        };
+
+        // --- Event Listeners ---
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        currencySelect.addEventListener('change', (e) => {
+            currencySymbol = e.target.value;
+            document.querySelectorAll('.currency-symbol').forEach(span => {
+                span.textContent = currencySymbol;
+            });
+            discountCurrencySymbol.textContent = currencySymbol;
+            updateTotals();
+        });
+
+        discountInput.addEventListener('input', updateTotals);
+        taxRateInput.addEventListener('input', updateTotals);
+        
+        taxTypeRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                const taxType = radio.value;
+                globalTaxContainer.classList.toggle('hidden', taxType !== 'global');
+                commonTaxContainer.classList.toggle('hidden', taxType !== 'common');
+                
+                const isPerItem = taxType === 'item';
+                itemTaxHeaders.forEach(th => th.classList.toggle('hidden', !isPerItem));
+                document.querySelectorAll('.item-tax-cell').forEach(cell => {
+                    cell.classList.toggle('hidden', !isPerItem);
+                });
+
+                if (taxType === 'common' && commonTaxesList.children.length === 0) {
+                    addCommonTax('CGST', '9');
+                    addCommonTax('SGST', '9');
+                }
+                updateTotals();
+            });
+        });
+
+        addCommonTaxBtn.addEventListener('click', () => addCommonTax());
+        
+        commonTaxesList.addEventListener('click', e => {
+            if (e.target.classList.contains('remove-common-tax')) {
+                e.target.closest('.common-tax-item').remove();
+                updateTotals();
+            }
+        });
+        
+        commonTaxesList.addEventListener('input', e => {
+            if (e.target.matches('.common-tax-name, .common-tax-rate')) {
+                updateTotals();
+            }
+        });
+
+        showLogoCheckbox.addEventListener('change', (e) => {
+            logoContainer.classList.toggle('hidden', !e.target.checked);
+        });
+
+        addItemBtn.addEventListener('click', () => {
+            const newRow = createItemRow();
+            itemsContainer.appendChild(newRow);
+        });
+
+        itemsContainer.addEventListener('input', (e) => {
+            if (e.target.matches('.item-qty, .item-rate, .item-tax')) {
+                const row = e.target.closest('.item-row');
+                updateItemAmount(row);
+            }
+        });
+        
+        itemsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-item')) {
+                e.target.closest('.item-row').remove();
+                updateTotals();
+            }
+        });
+
+        logoContainer.addEventListener('click', () => logoUploadInput.click());
+        logoUploadInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                showLogoCheckbox.checked = true;
+                logoContainer.classList.remove('hidden');
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    logoImage.src = event.target.result;
+                    logoImage.classList.remove('hidden');
+                    logoPlaceholder.classList.add('hidden');
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+        
+        downloadPdfBtn.addEventListener('click', () => {
+            const invoiceElement = document.getElementById('invoice-preview');
+            const opt = {
+                margin:       0.5,
+                filename:     `invoice-${document.querySelector('input[value^="INV-"]').value || '001'}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().from(invoiceElement).set(opt).save();
+        });
+
+        printInvoiceBtn.addEventListener('click', () => {
+            window.print();
+        });
+
+        // Signature events
+        signatureTypeRadios.forEach(radio => radio.addEventListener('change', handleSignatureTypeChange));
+        signatureTextInput.addEventListener('input', updateSignatureDisplay);
+        signatureUploadInput.addEventListener('change', updateSignatureDisplay);
+        
+        signatureCanvas.addEventListener('mousedown', startDrawing);
+        signatureCanvas.addEventListener('mouseup', endDrawing);
+        signatureCanvas.addEventListener('mousemove', draw);
+        signatureCanvas.addEventListener('mouseleave', endDrawing);
+        
+        // Touch events for mobile
+        signatureCanvas.addEventListener('touchstart', startDrawing);
+        signatureCanvas.addEventListener('touchend', endDrawing);
+        signatureCanvas.addEventListener('touchmove', draw);
+
+        clearCanvasBtn.addEventListener('click', clearSignatureCanvas);
+
+        // --- Initial Setup ---
+        const today = new Date();
+        const formatDate = (date) => {
+            const d = new Date(date);
+            let month = '' + (d.getMonth() + 1);
+            let day = '' + d.getDate();
+            const year = d.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+            return [year, month, day].join('-');
+        };
+        
+        const dueDate = new Date();
+        dueDate.setDate(today.getDate() + 30);
+        
+        issueDateInput.value = formatDate(today);
+        dueDateInput.value = formatDate(dueDate);
+        
+        addItemBtn.click();
+        
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+        updateTotals();
+    });
+    </script>
+</body>
+</html>

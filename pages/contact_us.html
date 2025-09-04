@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Jaiho Invoice</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                <span class="text-indigo-600">Jaiho </span>InvoiceGen
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Home</a>
+                <a href="more_products.html" class="text-gray-600 hover:text-indigo-600 transition-colors">More Products</a>
+                <a href="contact_us.html" class="text-indigo-600 font-semibold">Contact</a>
+                <a href="about_us.html" class="text-gray-600 hover:text-indigo-600 transition-colors">About Us</a>
+                <a href="faq.html" class="text-gray-600 hover:text-indigo-600 transition-colors">FAQ</a>
+                <a href="donate.html" class="block py-2 px-4 text-sm text-indigo-600 bg-indigo-50 font-semibold">Donate</a>
+            </div>
+             <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-indigo-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="../index.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">Home</a>
+            <a href="more_products.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">More Products</a>
+            <a href="contact_us.html" class="block py-2 px-4 text-sm text-indigo-600 bg-indigo-50 font-semibold">Contact</a>
+            <a href="about_us.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">About Us</a>
+            <a href="faq.html" class="block py-2 px-4 text-sm text-gray-600 hover:bg-indigo-50">FAQ</a>
+            <a href="donate.html" class="block py-2 px-4 text-sm text-indigo-600 bg-indigo-50 font-semibold">Donate</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 fade-in">Get in Touch</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto fade-in" style="animation-delay: 0.1s;">
+                We're here to help you with any questions about our invoice generator and services. Reach out to us through any of the channels below.
+            </p>
+        </div>
+
+        <!-- About Our Service -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 mb-16 text-white fade-in" style="animation-delay: 0.2s;">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">About Our Service</h2>
+                <p class="text-indigo-100 text-lg max-w-3xl mx-auto mb-6">
+                    Jaiho InvoiceGen is a free, comprehensive invoice generation tool designed to simplify business invoicing. 
+                    We provide advanced features like multiple tax calculation methods, multi-currency support, digital signatures, 
+                    and PDF export capabilities—all completely free for businesses worldwide.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">100% Free</h3>
+                        <p class="text-indigo-100 text-sm">No hidden costs or premium plans</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">Secure & Private</h3>
+                        <p class="text-indigo-100 text-sm">Your data stays in your browser</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">Feature Rich</h3>
+                        <p class="text-indigo-100 text-sm">Professional invoicing capabilities</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Company -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-16 fade-in" style="animation-delay: 0.3s;">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Company</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Behind Jaiho InvoiceGen are two innovative technology companies dedicated to creating solutions that empower businesses.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-2xl">JL</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Jaiho Labs</h3>
+                    <p class="text-gray-600 mb-4">R&D Innovation-focused technology lab specializing in AI, machine learning, and cutting-edge future proof technologies.</p>
+                    <a href="https://jaiho-labs.onrender.com" target="_blank" class="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors">
+                        Visit Jaiho Labs →
+                    </a>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-2xl">JT</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Jaiho TechServe</h3>
+                    <p class="text-gray-600 mb-4">Full-service technology solutions provider offering web development, mobile apps, AI/IT Integration and business automation.</p>
+                    <a href="https://jaihotechserve.onrender.com" target="_blank" class="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors">
+                        Visit Jaiho TechServe →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Methods Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            
+            <!-- Email Support -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 fade-in" style="animation-delay: 0.4s;">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Email Support</h3>
+                    <p class="text-gray-600 mb-6">Get help with general questions, feature requests, or user support.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-sm text-gray-600 mb-1">General Support</p>
+                            <a href="mailto:support@jaiho-labs.com" class="text-indigo-600 font-medium hover:text-indigo-800">
+                                jaihodigital@gmail.com
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-sm text-gray-600 mb-1">User Assistance</p>
+                            <a href="mailto:help@jaiho-labs.com" class="text-indigo-600 font-medium hover:text-indigo-800">
+                                jaihodigital@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Enquiry -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 fade-in" style="animation-delay: 0.5s;">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 00-2 2H8a2 2 0 00-2-2V6m8 0h2a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h2"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Business Enquiry</h3>
+                    <p class="text-gray-600 mb-6">Partnership opportunities, custom solutions, or enterprise discussions.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-sm text-gray-600 mb-1">Business Development</p>
+                            <a href="mailto:business@jaiho-labs.com" class="text-indigo-600 font-medium hover:text-indigo-800">
+                                jaihodigital@gmail.com
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-sm text-gray-600 mb-1">Partnerships</p>
+                            <a href="mailto:partners@jaihotechserve.com" class="text-indigo-600 font-medium hover:text-indigo-800">
+                                jaihodigital@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Issues -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 fade-in" style="animation-delay: 0.6s;">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Technical Issues</h3>
+                    <p class="text-gray-600 mb-6">Bug reports, technical problems, or feature malfunctions.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-sm text-gray-600 mb-1">Bug Reports</p>
+                            <a href="mailto:bugs@jaiho-labs.com" class="text-indigo-600 font-medium hover:text-indigo-800">
+                                jaihodigital@gmail.com
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-sm text-gray-600 mb-1">Technical Support</p>
+                            <a href="mailto:tech@jaiho-labs.com" class="text-indigo-600 font-medium hover:text-indigo-800">
+                                jaihodigital@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Response Time Information -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-16 fade-in" style="animation-delay: 0.7s;">
+            <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">Response Time</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-1">Technical Issues</h4>
+                    <p class="text-green-600 font-semibold">2-4 hours</p>
+                    <p class="text-gray-500 text-sm">Priority support</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-1">General Support</h4>
+                    <p class="text-blue-600 font-semibold">6-12 hours</p>
+                    <p class="text-gray-500 text-sm">Same day response</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 00-2 2H8a2 2 0 00-2-2V6m8 0h2a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h2"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-1">Business Enquiry</h4>
+                    <p class="text-purple-600 font-semibold">12-24 hours</p>
+                    <p class="text-gray-500 text-sm">Business days</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-1">Feature Requests</h4>
+                    <p class="text-orange-600 font-semibold">1-2 days</p>
+                    <p class="text-gray-500 text-sm">Detailed review</p>
+                </div>
+            </div>
+            <div class="text-center mt-8 p-4 bg-gray-50 rounded-lg">
+                <p class="text-gray-600">
+                    <strong>Operating Hours:</strong> Monday - Friday, 9:00 AM - 6:00 PM (IST) | 
+                    <strong>Emergency Issues:</strong> 24/7 monitoring for critical problems
+                </p>
+            </div>
+        </div>
+
+        <!-- Contact Form -
+        <div class="bg-white rounded-2xl shadow-lg p-8 fade-in" style="animation-delay: 0.8s;">
+            <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">Send us a Message</h2>
+            <form class="max-w-2xl mx-auto space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" placeholder="your@email.com" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="inquiry-type" class="block text-sm font-medium text-gray-700 mb-2">Inquiry Type</label>
+                    <select id="inquiry-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" required>
+                        <option value="">Select inquiry type</option>
+                        <option value="general">General Support</option>
+                        <option value="technical">Technical Issue</option>
+                        <option value="business">Business Enquiry</option>
+                        <option value="feature">Feature Request</option>
+                        <option value="bug">Bug Report</option>
+                        <option value="partnership">Partnership Opportunity</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                    <input type="text" id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" placeholder="Brief description of your inquiry" required>
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none" placeholder="Describe your question or issue in detail..." required></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-indigo-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-indigo-500/30">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+        </div>-->
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 mt-12 border-t bg-white">
+        <p class="text-gray-500 text-sm">&copy; <span id="footer-year"></span> All rights reserved.</p>
+        <p class="text-gray-500 text-sm mt-1">Developed by <a href="https://jaiho-labs.onrender.com" target="_blank" class="text-indigo-600 font-semibold">Jaiho Labs</a> and <a href="https://jaihotechserve.onrender.com" target="_blank" class="text-indigo-600 font-semibold">Jaiho TechServe</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Form submission
+            document.querySelector('form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Thank you for your message! We will get back to you soon.');
+            });
+
+            document.getElementById('footer-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
